@@ -11,6 +11,7 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import uuid
 from datetime import datetime, timedelta, timezone
 
 import httpx
@@ -24,7 +25,10 @@ LAGOS = (6.5244, 3.3792)
 
 def build_stream() -> list[dict]:
     base = datetime(2026, 1, 1, 9, 0, 0, tzinfo=timezone.utc)
-    acct = "acct-1001"
+    # Use a fresh account id each run so per-account state (which the service
+    # keeps in memory across requests) always starts clean and the stream is
+    # reproducible regardless of prior traffic.
+    acct = f"acct-{uuid.uuid4().hex[:8]}"
     events: list[dict] = []
 
     def txn(txn_id, minutes, amount, category, country, loc, card_present):
