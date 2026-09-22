@@ -67,6 +67,7 @@ pytest
 
 ## Cloud Agent environment
 
-This repository ships a Cloud Agent environment (`.cursor/environment.json` and
-`.cursor/Dockerfile`). On boot it installs dependencies into a virtual
-environment and launches the API in a `server` terminal on port 8000.
+This repository ships a Cloud Agent environment (`.cursor/environment.json`).
+On the default base image its `install` step (`.cursor/install.sh`) installs the
+package with pip, and a `server` terminal launches the API with
+`python3 -m uvicorn fraud.app:app` on port 8000.
